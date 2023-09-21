@@ -24,6 +24,10 @@ public class Move {
 		return (1); // success
 	}
 
+	public void reset_pp() {
+		this.pp = this.max_pp;
+	}
+
 	public String get_name() {
 		return (this.name);
 	}
@@ -42,5 +46,13 @@ public class Move {
 
 	public int get_pp() {
 		return (this.pp);
+	}
+
+	public Move clone() {
+		Move clone = new Move(this.name, this.id, this.damage, this.max_pp);
+		for (int i = 0; i < this.max_pp - this.pp; i++) {
+			clone.use();
+		}
+		return (clone);
 	}
 }
