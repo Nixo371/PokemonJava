@@ -13,21 +13,21 @@ public class StatsFinder {
 		
 		switch (id) {
 			case 1: // Bulbasaur
-				h = 15;
-				a = 12;
-				d = 16;
+				h = 45;
+				a = 49;
+				d = 49;
 				break;
 
 			case 4: // Charmander
-				h = 15;
-				a = 15;
-				d = 13;
+				h = 39;
+				a = 52;
+				d = 43;
 				break;
 
 			case 7: // Squirtle
-				h = 15;
-				a = 14;
-				d = 14;
+				h = 44;
+				a = 48;
+				d = 65;
 				break;
 		
 			default:

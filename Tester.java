@@ -2,8 +2,7 @@ package PokemonJava;
 
 public class Tester {
 	public static void main(String[] args) {
-		//damage_calculator_test();
-		stats_finder_test();
+		damage_calculator_test();
 	}
 
 	private static void damage_calculator_test() {
@@ -11,14 +10,14 @@ public class Tester {
 	}
 
 	private static void damage_calculator_calculate_damage_test() {
+		Pokemon charmander = new Pokemon("Charmander", 4, 5);
+		Pokemon squirtle = new Pokemon("Squirtle", 7, 5);
 		Move tackle = new Move("Tackle", 1, 40, 35);
 		DamageCalculator dmg_calc = new DamageCalculator();
 
-		for (int i = 0; i <= 10; i++) {
-			for (int j = 0; j <= 10; j++) {
-				System.out.println(String.format("Tackle (%d -> %d): %d damage!", i * 10, j * 10, dmg_calc.calculate_damage(i * 10, j * 10, tackle.get_power())));
-			}
-		}
+		System.out.println(String.format("Tackle (%s -> %s) did %d damage!", charmander.get_name(), squirtle.get_name(), dmg_calc.calculate_damage(charmander, squirtle, tackle)));
+		System.out.println(String.format("Tackle (%s -> %s) did %d damage!", squirtle.get_name(), charmander.get_name(), dmg_calc.calculate_damage(squirtle, charmander, tackle)));
+
 	}
 
 	private static void stats_finder_test() {

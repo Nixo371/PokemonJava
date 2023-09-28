@@ -18,8 +18,8 @@ public class PokemonJava {
 		Pokemon charmander = new Pokemon("Charmander", 4, 5);
 		Pokemon squirtle = new Pokemon("Squirtle", 7, 5);
 
-		Move tackle = new Move("Tackle", 1, 4, 35);
-		Move scratch = new Move("Scratch", 2, 5, 25);
+		Move tackle = new Move("Tackle", 1, 40, 35);
+		Move scratch = new Move("Scratch", 2, 40, 25);
 
 		bulbasaur.set_move(tackle.clone(), 1);
 		charmander.set_move(scratch.clone(), 1);

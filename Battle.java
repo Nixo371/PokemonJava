@@ -6,11 +6,13 @@ public class Battle {
 	Player player;
 	Trainer opponent;
 	Scanner scanner;
+	DamageCalculator dmg_calc;
 
 	public Battle(Player player, Trainer trainer, Scanner scanner) {
 		this.player = player;
 		this.opponent = trainer;
 		this.scanner = scanner;
+		this.dmg_calc = new DamageCalculator();
 	}
 
 	public Trainer start_battle() {
@@ -45,7 +47,7 @@ public class Battle {
 	}
 
 	private void battle_turn(Pokemon attacker, Pokemon defender, int move_slot) {
-		int damage_dealt = attacker.use_move(move_slot);
+		int damage_dealt = this.dmg_calc.calculate_damage(attacker, defender, attacker.get_move(move_slot));
 		System.out.println(String.format("%s used %s!", attacker.get_name(), attacker.get_move(move_slot).get_name()));
 		defender.hit(damage_dealt);
 		System.out.println(String.format("%s was hit for %d damage!", defender.get_name(), damage_dealt));

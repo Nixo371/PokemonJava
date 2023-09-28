@@ -1,9 +1,8 @@
 package PokemonJava;
 
-import javax.swing.text.html.StyleSheet;
-
 public class Pokemon {
 	private Stats stats;
+	public DamageCalculator dmg_calc;
 
 	private String name;
 	private int id;
@@ -25,6 +24,8 @@ public class Pokemon {
 		StatsFinder stats_finder = new StatsFinder();
 		BaseStats base_stats = stats_finder.get_base_stats_from_id(id);
 		IndividualValues ivs = new IndividualValues();
+
+		this.dmg_calc = new DamageCalculator();
 
 		this.stats = new Stats(base_stats, ivs);
 	}
@@ -143,6 +144,25 @@ public class Pokemon {
 
 	public int get_experience() {
 		return (this.experience);
+	}
+
+	public Stats get_stats() {
+		return (this.stats);
+	}
+
+	public int get_stat(String stat) {
+		if (stat.equals("health")) {
+			return (this.stats.get_health());
+		}
+		else if (stat.equals("attack")) {
+			return (this.stats.get_attack());
+		}
+		else if (stat.equals("defense")) {
+			return (this.stats.get_defense());
+		}
+		else {
+			return (-1);
+		}
 	}
 
 	public Move get_move(int slot) {
