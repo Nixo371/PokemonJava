@@ -3,15 +3,15 @@ package PokemonJava;
 public class Move {
 	private String name;
 	private int id;
-	private int damage;
+	private int power;
 	private int max_pp;
 	private int pp;
 
-	public Move(String name, int id, int damage, int max_pp)
+	public Move(String name, int id, int power, int max_pp)
 	{
 		this.name = name;
 		this.id = id;
-		this.damage = damage;
+		this.power = power;
 		this.max_pp = max_pp;
 		this.pp = max_pp;
 	}
@@ -36,8 +36,8 @@ public class Move {
 		return (this.id);
 	}
 
-	public int get_damage() {
-		return (this.damage);
+	public int get_power() {
+		return (this.power);
 	}
 
 	public int get_max_pp() {
@@ -49,7 +49,7 @@ public class Move {
 	}
 
 	public Move clone() {
-		Move clone = new Move(this.name, this.id, this.damage, this.max_pp);
+		Move clone = new Move(this.name, this.id, this.power, this.max_pp);
 		for (int i = 0; i < this.max_pp - this.pp; i++) {
 			clone.use();
 		}

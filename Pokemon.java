@@ -1,22 +1,32 @@
 package PokemonJava;
 
+import javax.swing.text.html.StyleSheet;
+
 public class Pokemon {
+	private Stats stats;
+
 	private String name;
 	private int id;
 	private int level;
 	private int max_hp;
 	private int hp;
+	private int experience;
 	private boolean fainted;
 	private Move[] moves = new Move[4];
 
-	public Pokemon(String name, int id, int level)
-	{
+	public Pokemon(String name, int id, int level) {
 		this.name = name;
 		this.id = id;
 		this.level = level;
 		this.max_hp = level * 5;
 		this.hp = max_hp;
 		this.fainted = false;
+
+		StatsFinder stats_finder = new StatsFinder();
+		BaseStats base_stats = stats_finder.get_base_stats_from_id(id);
+		IndividualValues ivs = new IndividualValues();
+
+		this.stats = new Stats(base_stats, ivs);
 	}
 
 	public int use_move(int slot) {
@@ -26,7 +36,7 @@ public class Pokemon {
 		if (moves[slot - 1].use() == 0) {
 			return (1); // no more pp available
 		}
-		return (moves[slot - 1].get_damage());
+		return (moves[slot - 1].get_power());
 	}
 
 	public int full_heal() {
@@ -62,8 +72,7 @@ public class Pokemon {
 		return (this.fainted);
 	}
 
-	public int set_move(Move move, int slot)
-	{
+	public int set_move(Move move, int slot) {
 		if (this.moves[slot - 1] != null) {
 			return (0); // slot already populated
 		}
@@ -71,8 +80,7 @@ public class Pokemon {
 		return (1); // success
 	}
 
-	public int unset_move(int slot)
-	{
+	public int unset_move(int slot) {
 		if (this.moves[slot - 1] == null) {
 			return (0); // no move in slot
 		}
@@ -80,8 +88,7 @@ public class Pokemon {
 		return (1); // success
 	}
 
-	public int swap_moves(int slot1, int slot2)
-	{
+	public int swap_moves(int slot1, int slot2) {
 		if (this.moves[slot1 - 1] == null && this.moves[slot2 - 1] == null) {
 			return (0); // both slots are unpopulated
 		}
@@ -101,7 +108,7 @@ public class Pokemon {
 		String move_selection_string = new String("----------------------------------------\n|             Select  Move             |\n----------------------------------------\n");
 		for (int i = 0; i < moves.length; i++) {
 			if (moves[i] != null) {
-				String move_string = new String(String.format("| (%d) %s - %d ATT - %d/%d PP", i + 1, moves[i].get_name(), moves[i].get_damage(), moves[i].get_pp(), moves[i].get_max_pp()));
+				String move_string = new String(String.format("| (%d) %s - %d ATT - %d/%d PP", i + 1, moves[i].get_name(), moves[i].get_power(), moves[i].get_pp(), moves[i].get_max_pp()));
 				move_selection_string = move_selection_string.concat(move_string);
 				for (int j = move_string.length(); j < 39; j++) {
 					move_selection_string = move_selection_string.concat(" ");
@@ -114,38 +121,35 @@ public class Pokemon {
 		return (move_selection_string.concat("----------------------------------------\n"));
 	}
 
-	public boolean has_fainted()
-	{
+	public boolean has_fainted() {
 		return (this.fainted);
 	}
 
-	public String get_name()
-	{
+	public String get_name() {
 		return (this.name);
 	}
 
-	public int get_level()
-	{
+	public int get_level() {
 		return (this.level);
 	}
 
-	public int get_hp()
-	{
+	public int get_hp() {
 		return (this.hp);
 	}
 
-	public int get_max_hp()
-	{
+	public int get_max_hp() {
 		return (this.max_hp);
 	}
 
-	public Move get_move(int slot)
-	{
+	public int get_experience() {
+		return (this.experience);
+	}
+
+	public Move get_move(int slot) {
 		return (moves[slot - 1]);
 	}
 
-	public Move[] get_moves()
-	{
+	public Move[] get_moves() {
 		return (moves);
 	}
 
