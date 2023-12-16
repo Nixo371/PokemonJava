@@ -1,8 +1,7 @@
-package PokemonJava;
+package PokemonJava.Pokemon;
 
 public class Pokemon {
-	private Stats stats;
-	public DamageCalculator dmg_calc;
+	private PokeStats stats;
 
 	private String name;
 	private int id;
@@ -24,8 +23,6 @@ public class Pokemon {
 		StatsFinder stats_finder = new StatsFinder();
 		BaseStats base_stats = stats_finder.get_base_stats_from_id(id);
 		IndividualValues ivs = new IndividualValues();
-
-		this.dmg_calc = new DamageCalculator();
 
 		this.stats = new Stats(base_stats, ivs);
 	}

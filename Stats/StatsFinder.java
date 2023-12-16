@@ -1,4 +1,4 @@
-package PokemonJava;
+package PokemonJava.Pokemon;
 
 public class StatsFinder {
 	
