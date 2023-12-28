@@ -1,4 +1,4 @@
-package PokemonJava.Stats;
+package PokemonJava.Pokemon;
 
 import java.util.Random;
 
@@ -18,6 +18,4 @@ public class IndividualValues extends Stats {
 	public IndividualValues(int hp, int attack, int defense, int speed, int special) {
 		super(hp, attack, defense, speed, special);
 	}
-
-	
 }

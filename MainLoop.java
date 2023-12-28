@@ -1,84 +1,56 @@
 package PokemonJava;
 
 import java.util.Scanner;
-import java.util.Random;
+
+import PokemonJava.Menu.Menu;
+import PokemonJava.Menu.MenuType;
+import PokemonJava.Trainer.Player;
 
 public class MainLoop {
-	Player player;
-	Trainer[] trainers;
-	Scanner scanner;
+	private Status status;
+	private Player player;
+	private Menu menu;
 
-	public MainLoop(Player player, Trainer[] trainers, Scanner scanner) {
+	public MainLoop(Player player) {
 		this.player = player;
-		this.trainers = trainers;
-		this.scanner = scanner;
+		this.status = new Status(this.player);
+		this.menu = new Menu(this.status, MenuType.MAIN_MENU, null);
+		this.status.set_menu(this.menu);
 	}
 
-	public void start_loop() {
-		this.loop();
-	}
+	public void start_loop(Scanner scanner) {
+		this.status.set_scanner(scanner);
+		this.loop(this.status);
+	}	
 
-	private void loop() {
-		String selection_string = new String(""
-		+ "What would you like to do?\n"
-		+ "(1) Battle\n"
-		+ "(2) Party\n"
-		+ "(3) Heal\n"
-		+ "(4) Exit"
-		);
+	private void loop(Status state) {
 		while (true) {
 			if (this.player.check_blackout()) {
 				System.out.println("All your pokemon fainted! You blacked out!");
-				this.exit();
+				this.blackout();
 			}
-			System.out.println(selection_string);
-
-			String user_input = this.scanner.nextLine();
-			if (user_input.equals("1")) {
-				this.battle(player, trainers);
-			}
-			else if (user_input.equals("2")) {
-				this.party(player);
-			}
-			else if (user_input.equals("3")) {
-				this.heal(player);
-			}
-			else if (user_input.equals("4")) {
-				this.exit();
-			}
-			else {
-				throw new Error("Invalid selection");
-			}
+			this.menu.show();
+			this.menu.get_user_input();
+			this.menu.execute_command();
+			this.menu = this.status.get_menu();
 		}
 	}
 
-	private void battle(Player player, Trainer[] trainers) {
-		Random rng = new Random();
-		Trainer opponent = trainers[rng.nextInt(trainers.length)];
-		Battle battle = new Battle(player, opponent, this.scanner);
+	public void set_menu(Menu menu) {
+		this.menu = menu;
+	}
 
-		Trainer winner = battle.start_battle();
-		System.out.println(String.format("%s has won the battle!", winner.name));
-		if (winner == player) {
-			Pokemon winning_pokemon = player.get_lead();
-			winning_pokemon.level_up();
-			System.out.println(String.format("%s has levelled up to level %d!", winning_pokemon.get_name(), winning_pokemon.get_level()));
+	private void blackout() {
+		System.out.println("You have been sent back to the Pokemon Center!");
+		this.player.get_party().full_heal();
+		this.reset_menu();
+		this.set_menu(new Menu(this.status, MenuType.MAIN_MENU));
+	}
+
+	private void reset_menu() {
+		while (this.menu.get_previous_menu() != null) {
+			this.menu = this.menu.get_previous_menu();
 		}
-		Pokemon opponent_pokemon = opponent.get_lead();
-		opponent_pokemon.full_heal(); // heals opponent team :)
-	}
-
-	private void party(Player player) {
-		System.out.print(player.print_party());
-	}
-
-	private void heal(Player player) {
-		player.get_party().heal();
-		System.out.println("All your pokemon were fully healed!");
-	}
-	
-	private void exit() {
-		this.scanner.close();
-		System.exit(0);
+		this.menu = null;
 	}
 }

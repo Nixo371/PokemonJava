@@ -1,4 +1,6 @@
-package PokemonJava;
+package PokemonJava.Trainer;
+
+import PokemonJava.Pokemon.Pokemon;
 
 public class Trainer {
 	String name;
@@ -37,5 +39,9 @@ public class Trainer {
 
 	public Pokemon get_lead() {
 		return (this.party.get_pokemon(1));
+	}
+
+	public String get_name() {
+		return (this.name);
 	}
 }

@@ -1,5 +1,10 @@
 package PokemonJava.Pokemon;
 
+import PokemonJava.Stats.BaseStats;
+import PokemonJava.Stats.IndividualValues;
+import PokemonJava.Stats.PokeStats;
+import PokemonJava.Stats.StatsFinder;
+
 public class Pokemon {
 	private PokeStats stats;
 
@@ -11,20 +16,26 @@ public class Pokemon {
 	private int experience;
 	private boolean fainted;
 	private Move[] moves = new Move[4];
+	private Type type1;
+	private Type type2;
 
-	public Pokemon(String name, int id, int level) {
-		this.name = name;
+	public Pokemon(int id, int level) {
 		this.id = id;
 		this.level = level;
-		this.max_hp = level * 5;
-		this.hp = max_hp;
 		this.fainted = false;
 
 		StatsFinder stats_finder = new StatsFinder();
-		BaseStats base_stats = stats_finder.get_base_stats_from_id(id);
+		BaseStats base_stats = stats_finder.get_base_stats(id);
 		IndividualValues ivs = new IndividualValues();
+		this.name = stats_finder.get_name(id);
 
-		this.stats = new Stats(base_stats, ivs);
+		this.stats = new PokeStats(base_stats, ivs);
+		this.stats.update_stats(level);
+		this.type1 = stats_finder.get_type1(id);
+		this.type2 = stats_finder.get_type2(id);
+
+		this.max_hp = this.stats.get_hp();
+		this.hp = this.max_hp;
 	}
 
 	public int use_move(int slot) {
@@ -98,25 +109,8 @@ public class Pokemon {
 
 	public void level_up() {
 		this.level++;
-		this.max_hp += 5;
-		this.hp += 5;
-	}
-
-	public String print_move_selection() {
-		String move_selection_string = new String("----------------------------------------\n|             Select  Move             |\n----------------------------------------\n");
-		for (int i = 0; i < moves.length; i++) {
-			if (moves[i] != null) {
-				String move_string = new String(String.format("| (%d) %s - %d ATT - %d/%d PP", i + 1, moves[i].get_name(), moves[i].get_power(), moves[i].get_pp(), moves[i].get_max_pp()));
-				move_selection_string = move_selection_string.concat(move_string);
-				for (int j = move_string.length(); j < 39; j++) {
-					move_selection_string = move_selection_string.concat(" ");
-				}
-			} else {
-				move_selection_string = move_selection_string.concat(String.format("| (%d) ---                              ", i + 1));
-			}
-			move_selection_string = move_selection_string.concat("|\n");
-		}
-		return (move_selection_string.concat("----------------------------------------\n"));
+		this.stats.update_stats(level);
+		this.max_hp = this.stats.get_hp();
 	}
 
 	public boolean has_fainted() {
@@ -143,23 +137,8 @@ public class Pokemon {
 		return (this.experience);
 	}
 
-	public Stats get_stats() {
+	public PokeStats get_stats() {
 		return (this.stats);
-	}
-
-	public int get_stat(String stat) {
-		if (stat.equals("health")) {
-			return (this.stats.get_health());
-		}
-		else if (stat.equals("attack")) {
-			return (this.stats.get_attack());
-		}
-		else if (stat.equals("defense")) {
-			return (this.stats.get_defense());
-		}
-		else {
-			return (-1);
-		}
 	}
 
 	public Move get_move(int slot) {
@@ -170,8 +149,16 @@ public class Pokemon {
 		return (moves);
 	}
 
+	public Type get_type1() {
+		return (this.type1);
+	}
+
+	public Type get_type2() {
+		return (this.type2);
+	}
+
 	public Pokemon clone() {
-		Pokemon clone = new Pokemon(this.name, this.id, this.level);
+		Pokemon clone = new Pokemon(this.id, this.level);
 		
 		clone.hit(this.max_hp - this.hp);
 		clone.check_fainted();

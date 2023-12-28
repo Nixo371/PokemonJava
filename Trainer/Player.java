@@ -1,4 +1,6 @@
-package PokemonJava;
+package PokemonJava.Trainer;
+
+import PokemonJava.Pokemon.Pokemon;
 
 public class Player extends Trainer {
 	public Player(String name)

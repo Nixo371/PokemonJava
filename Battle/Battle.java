@@ -1,63 +1,26 @@
-package PokemonJava;
+package PokemonJava.Battle;
 
-import java.util.Scanner;
+import PokemonJava.DamageCalculator;
+import PokemonJava.Pokemon.Pokemon;
+import PokemonJava.Trainer.Player;
+import PokemonJava.Trainer.Trainer;
 
 public class Battle {
 	Player player;
 	Trainer opponent;
-	Scanner scanner;
 	DamageCalculator dmg_calc;
 
-	public Battle(Player player, Trainer trainer, Scanner scanner) {
+	public Battle(Player player, Trainer trainer) {
 		this.player = player;
 		this.opponent = trainer;
-		this.scanner = scanner;
 		this.dmg_calc = new DamageCalculator();
 	}
 
-	public Trainer start_battle() {
-		Pokemon player_pokemon = send_out_lead(player);
-		Pokemon trainer_pokemon = send_out_lead(opponent);
-
-		int selected_move_slot;
-		while (true) {
-			System.out.print(get_battle_display(player_pokemon, trainer_pokemon));
-			System.out.print(player_pokemon.print_move_selection());
-
-			selected_move_slot = Integer.parseInt(this.scanner.nextLine());
-
-			battle_turn(player_pokemon, trainer_pokemon, selected_move_slot);
-			if (is_battle_over(player, opponent)) {
-				return(end_battle(player, opponent));
-			}
-
-			battle_turn(trainer_pokemon, player_pokemon, 1);
-			if (is_battle_over(player, opponent)) {
-				return(end_battle(player, opponent));
-			}
-		}
-
-	}
-
-	private Pokemon send_out_lead(Trainer trainer) {
-		Pokemon lead_pokemon = trainer.get_lead();
-		System.out.println(String.format("%s has sent out %s!", trainer.name, lead_pokemon.get_name()));
-
-		return (lead_pokemon);
-	}
-
-	private void battle_turn(Pokemon attacker, Pokemon defender, int move_slot) {
-		int damage_dealt = this.dmg_calc.calculate_damage(attacker, defender, attacker.get_move(move_slot));
-		System.out.println(String.format("%s used %s!", attacker.get_name(), attacker.get_move(move_slot).get_name()));
-		defender.hit(damage_dealt);
-		System.out.println(String.format("%s was hit for %d damage!", defender.get_name(), damage_dealt));
-	}
-
-	private boolean is_battle_over(Trainer trainer1, Trainer trainer2) {
+	public boolean is_battle_over(Trainer trainer1, Trainer trainer2) {
 		return (trainer1.check_blackout() || trainer2.check_blackout());
 	}
 
-	private Trainer end_battle(Player player, Trainer opponent) {
+	public Trainer end_battle(Player player, Trainer opponent) {
 		if (player.check_blackout()) {
 			return (opponent);
 		}
@@ -87,44 +50,44 @@ public class Battle {
 		return (centered_string);
 	}
 
-	private String get_battle_display(Pokemon player_pokemon, Pokemon trainer_pokemon) {
+	public String get_battle_display(Pokemon player_pokemon, Pokemon trainer_pokemon) {
 		String line = new String("------------------------------");
 		String empty_line = new String("|                            |");
 		String empty = new String("                ");
 
-		String battle_display = new String();
+		StringBuilder sb = new StringBuilder();
 
-		battle_display = battle_display.concat(line);
-		battle_display = battle_display.concat(empty);
-		battle_display = battle_display.concat(line);
-		battle_display = battle_display.concat("\n");
+		sb.append(line);
+		sb.append(empty);
+		sb.append(line);
+		sb.append("\n");
 
-		battle_display = battle_display.concat(empty_line);
-		battle_display = battle_display.concat(empty);
-		battle_display = battle_display.concat(empty_line);
-		battle_display = battle_display.concat("\n");
+		sb.append(empty_line);
+		sb.append(empty);
+		sb.append(empty_line);
+		sb.append("\n");
 
-		battle_display = battle_display.concat(center_string(String.format("%s Lv.%d", player_pokemon.get_name(), player_pokemon.get_level()), line.length()));
-		battle_display = battle_display.concat(empty);
-		battle_display = battle_display.concat(center_string(String.format("%s Lv.%d", trainer_pokemon.get_name(), trainer_pokemon.get_level()), line.length()));
-		battle_display = battle_display.concat("\n");
+		sb.append(center_string(String.format("%s Lv.%d", player_pokemon.get_name(), player_pokemon.get_level()), line.length()));
+		sb.append(empty);
+		sb.append(center_string(String.format("%s Lv.%d", trainer_pokemon.get_name(), trainer_pokemon.get_level()), line.length()));
+		sb.append("\n");
 
-		battle_display = battle_display.concat(center_string(String.format("%d / %d", player_pokemon.get_hp(), player_pokemon.get_max_hp()), line.length()));
-		battle_display = battle_display.concat(empty);
-		battle_display = battle_display.concat(center_string(String.format("%d / %d", trainer_pokemon.get_hp(), trainer_pokemon.get_max_hp()), line.length()));
-		battle_display = battle_display.concat("\n");
+		sb.append(center_string(String.format("%d / %d", player_pokemon.get_hp(), player_pokemon.get_max_hp()), line.length()));
+		sb.append(empty);
+		sb.append(center_string(String.format("%d / %d", trainer_pokemon.get_hp(), trainer_pokemon.get_max_hp()), line.length()));
+		sb.append("\n");
 
-		battle_display = battle_display.concat(empty_line);
-		battle_display = battle_display.concat(empty);
-		battle_display = battle_display.concat(empty_line);
-		battle_display = battle_display.concat("\n");
+		sb.append(empty_line);
+		sb.append(empty);
+		sb.append(empty_line);
+		sb.append("\n");
 
-		battle_display = battle_display.concat(line);
-		battle_display = battle_display.concat(empty);
-		battle_display = battle_display.concat(line);
-		battle_display = battle_display.concat("\n");
+		sb.append(line);
+		sb.append(empty);
+		sb.append(line);
+		sb.append("\n");
 
-		return (battle_display);
+		return (sb.toString());
 	}
 
 }

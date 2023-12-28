@@ -1,4 +1,6 @@
-package PokemonJava;
+package PokemonJava.Trainer;
+
+import PokemonJava.Pokemon.Pokemon;
 
 public class Party {
 	Pokemon[] party;
@@ -8,19 +10,44 @@ public class Party {
 	}
 
 	public String print_party() {
-		String return_string = new String("----------------------------------------\n|              Your Party              |\n----------------------------------------\n");
+		StringBuilder sb = new StringBuilder();
+		sb.append("----------------------------------------\n|              Your Party              |\n----------------------------------------\n");
 		for (int i = 0; i < this.party.length; i++) {
 			if (this.party[i] != null) {
 				String party_member = new String(String.format("| %d. %s - Lv. %d - %d/%d HP", i + 1, this.party[i].get_name(), this.party[i].get_level(), this.party[i].get_hp(), this.party[i].get_max_hp()));
-				return_string = return_string + party_member;
+				sb.append(party_member);
 				for (int j = party_member.length(); j < 39; j++) {
-					return_string += " ";
+					sb.append(" ");
 				}
-				return_string += "|\n";
+				sb.append("|\n");
 				party_member = null;
 			}
 		}
-		return (return_string + "----------------------------------------\n");
+		sb.append("----------------------------------------\n");
+		return (sb.toString());
+	}
+
+	public String pokemon_stats(int slot) {
+		if (this.party[slot - 1] == null) {
+			System.out.println("Error: No pokemon in slot " + slot);
+			return (null);
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append("----------------------------------------\n|");
+		String pokemon_name = new String(this.party[slot - 1].get_name() + " - Lv. " + this.party[slot - 1].get_level());
+		int	spacing = (38 - pokemon_name.length()) / 2;
+		for (int i = 0; i < spacing; i++) {
+			sb.append(" ");
+		}
+		sb.append(pokemon_name);
+		for (int i = 0; i < spacing; i++) {
+			sb.append(" ");
+		}
+		if (pokemon_name.length() % 2 == 1) {
+			sb.append(" ");
+		}
+		sb.append("|\n----------------------------------------\n");
+		return (sb.toString());
 	}
 
 	public int add_pokemon(Pokemon pokemon) {
@@ -41,6 +68,15 @@ public class Party {
 		}
 	}
 
+	public void full_heal() {
+		for (Pokemon pokemon : party) {
+			if (pokemon != null) {
+				pokemon.full_heal();
+				// TODO: remove status effects when implemented
+			}
+		}
+	}
+
 	public int swap_pokemon(int slot1, int slot2) {
 		if (this.party[slot1 - 1] == null || this.party[slot2 - 1] == null) {
 			return (0); // cannot switch with no pokemon
@@ -49,6 +85,14 @@ public class Party {
 		this.party[slot1 - 1] = this.party[slot2 - 1];
 		this.party[slot2 - 1] = tmp;
 		return (1); // success!
+	}
+
+	public int length() {
+		int i = 0;
+		while (party[i] != null) {
+			i++;
+		}
+		return (i);
 	}
 
 	public Pokemon get_pokemon(int slot) {

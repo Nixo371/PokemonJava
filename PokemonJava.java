@@ -2,28 +2,28 @@ package PokemonJava;
 
 import java.util.Scanner;
 
+import PokemonJava.Pokemon.Move;
+import PokemonJava.Pokemon.Pokemon;
+import PokemonJava.Trainer.Player;
+import PokemonJava.Trainer.Trainer;
+
 public class PokemonJava {
 	public static void main(String[] args)
 	{
-		Scanner scanner = new Scanner(System.in);
-
 		Player player = new Player("Nico");
 		Trainer[] trainers = new Trainer[2];
 		trainers[0] = new Trainer();
 		trainers[1] = new Trainer();
 
-		MainLoop main_loop = new MainLoop(player, trainers, scanner);
+		MainLoop main_loop = new MainLoop(player);
 
-		Pokemon bulbasaur = new Pokemon("Bulbasaur", 1, 5);
-		Pokemon charmander = new Pokemon("Charmander", 4, 5);
-		Pokemon squirtle = new Pokemon("Squirtle", 7, 5);
+		Pokemon bulbasaur = new Pokemon(1, 5);
+		Pokemon charmander = new Pokemon(4, 5);
+		Pokemon squirtle = new Pokemon(7, 5);
 
-		Move tackle = new Move("Tackle", 1, 40, 35);
-		Move scratch = new Move("Scratch", 2, 40, 25);
-
-		bulbasaur.set_move(tackle.clone(), 1);
-		charmander.set_move(scratch.clone(), 1);
-		squirtle.set_move(tackle.clone(), 1);
+		bulbasaur.set_move(new Move("Tackle", 33, 40, 35), 1);
+		charmander.set_move(new Move("Scratch", 10, 40, 35), 1);
+		squirtle.set_move(new Move("Tackle", 33, 40, 35), 1);
 
 		
 		System.out.println("Pick a pokemon!");
@@ -31,6 +31,8 @@ public class PokemonJava {
 		System.out.println("(2) Charmander");
 		System.out.println("(3) Squirtle");
 		System.out.print("=> ");
+
+		Scanner scanner = new Scanner(System.in);
 
 		String player_selection = scanner.nextLine();
 		if (player_selection.equals("1")) {
@@ -53,6 +55,6 @@ public class PokemonJava {
 			throw new Error("Nope");
 		}
 
-		main_loop.start_loop();
+		main_loop.start_loop(scanner);
 	}
 }

@@ -1,15 +1,16 @@
-package PokemonJava.Stats;
+package PokemonJava.Pokemon;
 
-public abstract class Stats {
-
+public class Stats {
+	
 	private int hp;
 	private int attack;
 	private int defense;
 	private int speed;
 	private int special;
-	private int[] stats = new int[5];
+	private int[] stats;
 
 	public Stats(int hp, int attack, int defense, int speed, int special) {
+		stats = new int[5];
 		set_hp(hp);
 		set_attack(attack);
 		set_defense(defense);
