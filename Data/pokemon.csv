@@ -32,12 +32,12 @@
 32,Nidoran♂,46,57,40,50,40,Poison,None
 33,Nidorino,61,72,57,65,55,Poison,None
 34,Nidoking,81,92,77,85,75,Poison,Ground
-35,Clefairy,70,45,48,35,60,Fairy,None
-36,Clefable,95,70,73,60,85,Fairy,None
+35,Clefairy,70,45,48,35,60,Normal,None
+36,Clefable,95,70,73,60,85,Normal,None
 37,Vulpix,38,41,40,65,65,Fire,None
 38,Ninetales,73,76,75,100,100,Fire,None
-39,Jigglypuff,115,45,20,20,25,Normal,Fairy
-40,Wigglytuff,140,70,45,45,50,Normal,Fairy
+39,Jigglypuff,115,45,20,20,25,Normal,None
+40,Wigglytuff,140,70,45,45,50,Normal,None
 41,Zubat,40,45,35,55,40,Poison,Flying
 42,Golbat,75,80,70,90,75,Poison,Flying
 43,Oddish,45,50,55,30,75,Grass,Poison
@@ -78,8 +78,8 @@
 78,Rapidash,65,100,70,105,80,Fire,None
 79,Slowpoke,90,65,65,15,40,Water,Psychic
 80,Slowbro,95,75,110,30,80,Water,Psychic
-81,Magnemite,25,35,70,45,95,Electric,Steel
-82,Magneton,50,60,95,70,120,Electric,Steel
+81,Magnemite,25,35,70,45,95,Electric,None
+82,Magneton,50,60,95,70,120,Electric,None
 83,Farfetch'd,52,65,55,60,58,Normal,Flying
 84,Doduo,35,85,45,75,35,Normal,Flying
 85,Dodrio,60,110,70,100,60,Normal,Flying
@@ -119,7 +119,7 @@
 119,Seaking,80,92,65,68,80,Water,None
 120,Staryu,30,45,55,85,70,Water,None
 121,Starmie,60,75,85,115,100,Water,Psychic
-122,Mr.Mime,40,45,65,90,100,Psychic,Fairy
+122,Mr.Mime,40,45,65,90,100,Psychic,None
 123,Scyther,70,110,80,105,55,Bug,Flying
 124,Jynx,65,50,35,95,95,Ice,Psychic
 125,Electabuzz,65,83,57,105,85,Electric,None
